@@ -616,6 +616,15 @@ static void extend_initrds(
                 iovec_array_extend(all_initrds, n_all_initrds, *i);
 }
 
+static void items_free(char16_t **items, size_t n_items) {
+        assert(items || n_items == 0);
+
+        for (size_t i = 0; i < n_items; ++i)
+                free(items[i]);
+
+        free(items);
+}
+
 static EFI_STATUS load_addons(
                 EFI_HANDLE stub_image,
                 EFI_LOADED_IMAGE_PROTOCOL *loaded_image,
@@ -642,7 +651,7 @@ static EFI_STATUS load_addons(
         if (!loaded_image->DeviceHandle)
                 return EFI_SUCCESS;
 
-        CLEANUP_ARRAY(items, n_items, strv_free);
+        CLEANUP_ARRAY(items, n_items, items_free);
 
         err = open_volume(loaded_image->DeviceHandle, &root);
         if (err == EFI_UNSUPPORTED)
