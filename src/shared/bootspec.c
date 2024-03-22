@@ -2007,6 +2007,8 @@ int show_boot_entries(const BootConfig *config, sd_json_format_flags_t json_form
                 _cleanup_(sd_json_variant_unrefp) sd_json_variant *array = NULL;
 
                 for (size_t i = 0; i < config->n_entries; i++) {
+                        _cleanup_free_ char *opts = NULL;
+                        const BootEntry *e = config->entries + i;
                         _cleanup_(sd_json_variant_unrefp) sd_json_variant *v = NULL;
 
                         if (!strv_isempty(e->options)) {
