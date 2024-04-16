@@ -1522,7 +1522,6 @@ static void boot_entry_add_type1(
                         );
                         entry->addons[n_addons++] = xstr8_to_path(value);
                         entry->addons[n_addons] = NULL;
-                        continue;
                 } else if (streq8(key, "options")) {
                         _cleanup_free_ char16_t *new = NULL;
 
